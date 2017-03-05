@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mTextView = viewById(R.id.test_tv);
     }
 
     @Override
