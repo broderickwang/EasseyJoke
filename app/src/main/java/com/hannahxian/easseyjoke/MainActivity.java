@@ -10,10 +10,9 @@ import android.widget.Toast;
 import com.hannahxian.baselibrary.IOC.CheckNet;
 import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
-import com.hannahxian.baselibrary.IOC.ViewUtils;
-import com.hannahxian.baselibrary.base.BaseActivity;
+import com.hannahxian.framelibrary.BaseSkinActivity;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseSkinActivity {
 
     @ViewById(R.id.test_tv)
     private TextView mTextView;

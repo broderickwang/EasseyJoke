@@ -13,6 +13,11 @@ import com.hannahxian.baselibrary.IOC.ViewUtils;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+    //只放一些通用的东西，基本每个Activity都能用到的，readDataBase最好不要放进来
+    //如果两个或者两个以上的地方要使用，最好放进来
+    //
+    //永远预留一层 baseskinactivity
+    //
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
