@@ -1,5 +1,6 @@
 package com.hannahxian.easseyjoke;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +11,9 @@ import com.hannahxian.baselibrary.IOC.CheckNet;
 import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.IOC.ViewUtils;
+import com.hannahxian.baselibrary.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @ViewById(R.id.test_tv)
     private TextView mTextView;
@@ -19,13 +21,23 @@ public class MainActivity extends AppCompatActivity {
     private int mPage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+    }
+
+    @Override
+    protected void initTile() {
+
+    }
+
+    @Override
+    protected void setContentView() {
         setContentView(R.layout.activity_main);
-
-        ViewUtils.inject(this);
-
-        mTextView.setText("MY IOC");
+//        startActivity(MainActivity.class);
     }
 
     @OnClick({R.id.test_tv,R.id.test_iv})
