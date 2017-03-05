@@ -127,7 +127,8 @@ public class ViewUtils  {
                 e.printStackTrace();
 
                 try {
-                    mMethod.invoke(mObject,null);
+                    Object[] obj = new Object[]{};
+                    mMethod.invoke(mObject,obj);
                 } catch (IllegalAccessException e1) {
                     e1.printStackTrace();
                 } catch (InvocationTargetException e1) {
