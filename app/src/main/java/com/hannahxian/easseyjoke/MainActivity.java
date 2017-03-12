@@ -3,8 +3,8 @@ package com.hannahxian.easseyjoke;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -15,6 +15,8 @@ import com.hannahxian.baselibrary.IOC.CheckNet;
 import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.dialog.AlertDialog;
+import com.hannahxian.baselibrary.http.EngineCallback;
+import com.hannahxian.baselibrary.http.HttpUtils;
 import com.hannahxian.framelibrary.BaseSkinActivity;
 
 public class MainActivity extends BaseSkinActivity {
@@ -26,7 +28,28 @@ public class MainActivity extends BaseSkinActivity {
 
     @Override
     protected void initData() {
+        /*HttpUtils.with(this).url("http://news-at.zhihu.com/api/4/news/latest").get().excute(new EngineCallback() {
+            @Override
+            public void onError(Exception e) {
 
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                Log.e("TAG", "onSuccess: "+result );
+            }
+        });*/
+        HttpUtils.with(this).url("http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card").addParam("uid","2609105336").get().excute(new EngineCallback() {
+            @Override
+            public void onError(Exception e) {
+
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                Log.i("TAG", "onSuccess: "+result );
+            }
+        });
     }
 
     @Override
@@ -36,7 +59,6 @@ public class MainActivity extends BaseSkinActivity {
 
     @Override
     protected void initTile() {
-
     }
 
     @Override
