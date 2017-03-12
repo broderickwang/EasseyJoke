@@ -76,6 +76,13 @@ public class HttpUtils {
     }
     //添加回调，执行
     public void excute(EngineCallback callback){
+
+        //1.baselibrary不包含业务逻辑
+        //2.每一个项目，如果有多条业务线
+
+        //让callback回调去
+        callback.onPreExcute(mContext,mParams);
+
         if(callback == null){
             callback = EngineCallback.DEFAULTCALLBACK;
         }

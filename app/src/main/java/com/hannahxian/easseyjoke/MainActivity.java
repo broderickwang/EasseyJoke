@@ -1,9 +1,6 @@
 package com.hannahxian.easseyjoke;
 
-import android.app.Application;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -15,9 +12,10 @@ import com.hannahxian.baselibrary.IOC.CheckNet;
 import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.dialog.AlertDialog;
-import com.hannahxian.baselibrary.http.EngineCallback;
 import com.hannahxian.baselibrary.http.HttpUtils;
+import com.hannahxian.easseyjoke.mode.ResultBean;
 import com.hannahxian.framelibrary.BaseSkinActivity;
+import com.hannahxian.framelibrary.HttpCallBack;
 
 public class MainActivity extends BaseSkinActivity {
 
@@ -33,21 +31,37 @@ public class MainActivity extends BaseSkinActivity {
             public void onError(Exception e) {
 
             }
-
+http://is.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=-101&message_cursor=-1
+&longitude=116.4121485&latitude=39.9365054&am_longitude=116.41828&am_latitude=39.937848&am_city=%E5%8C%97%E4%BA%AC%E5%B8%82
+&am_loc_time=1483686438786&count=30&min_time=1483929653&screen_width=1080&iid=7164180604&device_id=34822199408&ac=wifi
+&channel=baidu&aid=7&app_name=joke_essay&version_code=590&version_name=5.9.0&device_platform=android&ssmix=a
+&device_type=Nexus%2B5&device_brand=google&os_api=25&os_version=7.1&uuid=359250050588035&openudid=12645e537a2f0f25
+&manifest_version_code=590&resolution=1080*1776&dpi=480&update_version_code=5903
             @Override
             public void onSuccess(String result) {
                 Log.e("TAG", "onSuccess: "+result );
             }
         });*/
-        HttpUtils.with(this).url("http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card").addParam("uid","2609105336").get().excute(new EngineCallback() {
+        HttpUtils.with(this).url("http://is.snssdk.com/neihan/stream/mix/v1/").addParam("uuid","359250050588035")
+                .addParam("openudid","12645e537a2f0f25").get().excute(new HttpCallBack<ResultBean>() {
             @Override
             public void onError(Exception e) {
 
             }
 
             @Override
-            public void onSuccess(String result) {
-                Log.i("TAG", "onSuccess: "+result );
+            public void onSuccess(ResultBean result) {
+                //可以取消进度条
+                //转换成可操作的对象
+
+                Log.i("TAG", "onSuccess: Main = "+result.getData().getTip() );
+            }
+
+            @Override
+            public void onPreExcute() {
+                super.onPreExcute();
+                //可以加载进度条
+                Log.i("TAG", "onPreExcute: MainActivity");
             }
         });
     }
