@@ -1,6 +1,11 @@
 package com.hannahxian.easseyjoke;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -13,19 +18,30 @@ import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.dialog.AlertDialog;
 import com.hannahxian.baselibrary.http.HttpUtils;
+import com.hannahxian.easseyjoke.mode.Person;
 import com.hannahxian.easseyjoke.mode.ResultBean;
 import com.hannahxian.framelibrary.BaseSkinActivity;
 import com.hannahxian.framelibrary.HttpCallBack;
+import com.hannahxian.framelibrary.db.DaoSupportFactory;
+import com.hannahxian.framelibrary.db.IDaoSupport;
+import com.hannahxian.framelibrary.utils.PermissionUtils;
 
 public class MainActivity extends BaseSkinActivity {
 
     @ViewById(R.id.test_tv)
     private TextView mTextView;
 
-    private int mPage;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] READ = {Manifest.permission.READ_EXTERNAL_STORAGE};
+    private static String[] WRITE ={ Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private static String[] CAMERA = { Manifest.permission.CAMERA};
+
+    private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
 
     @Override
     protected void initData() {
+        verifyStoragePermissions(this);
         /*HttpUtils.with(this).url("http://news-at.zhihu.com/api/4/news/latest").get().excute(new EngineCallback() {
             @Override
             public void onError(Exception e) {
@@ -42,7 +58,7 @@ http://is.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=
                 Log.e("TAG", "onSuccess: "+result );
             }
         });*/
-        HttpUtils.with(this).url("http://is.snssdk.com/neihan/stream/mix/v1/").addParam("uuid","359250050588035")
+        /*HttpUtils.with(this).url("http://is.snssdk.com/neihan/stream/mix/v1/").addParam("uuid","359250050588035")
                 .addParam("openudid","12645e537a2f0f25").get().excute(new HttpCallBack<ResultBean>() {
             @Override
             public void onError(Exception e) {
@@ -63,7 +79,9 @@ http://is.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=
                 //可以加载进度条
                 Log.i("TAG", "onPreExcute: MainActivity");
             }
-        });
+        });*/
+
+
     }
 
     @Override
@@ -83,7 +101,7 @@ http://is.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=
 
     @OnClick({R.id.test_tv,R.id.test_iv})
     @CheckNet           //没不执行，打印没网的tosast
-    private void onClick(){
+    private void onClick(View v){
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setContentView(R.layout.detail_comment_dialog)
                 /*.setOnClickListner(R.id.wb, new View.OnClickListener() {
@@ -99,17 +117,6 @@ http://is.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=
                 .show();
 
         final EditText com_et = dialog.getView(R.id.commont);
-
-        //弹出软键盘
-       /* com_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
-                    closeKeyBoard(com_et);
-            }
-        });*/
-        showKeyBoard(com_et);
-
         // 如果setonclicklistner放到上面，获取不到，edittext的内容，以后可能会操作一些特殊的，比如listview  recyclelistview等，只能通过getview方法得到
         dialog.setOnClickListner(R.id.wb, new View.OnClickListener() {
             @Override
@@ -117,7 +124,14 @@ http://is.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=
                 Toast.makeText(MainActivity.this, com_et.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
-       // Toast.makeText(this, "test onclick", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @OnClick(R.id.createtb)
+    private void createTb(){
+        IDaoSupport<Person> daoSupport = DaoSupportFactory.getFactory().getDao(Person.class);
+        //最少的知识原则
+        daoSupport.insert(new Person("marc",22));
     }
     /**
      * 弹出软键盘
@@ -132,5 +146,22 @@ http://is.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=
     public void closeKeyBoard(EditText editText) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
+    /**
+     * 动态申请权限
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE);
+        }
     }
 }
