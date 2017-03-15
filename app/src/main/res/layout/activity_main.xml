@@ -26,4 +26,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="创建表"/>
+    <Button
+        android:id="@+id/create1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="创建课程表"/>
+    <Button
+        android:id="@+id/query1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查询课程表"/>
 </LinearLayout>
