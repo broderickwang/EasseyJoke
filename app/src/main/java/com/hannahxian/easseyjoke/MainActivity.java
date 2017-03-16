@@ -18,6 +18,7 @@ import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.dialog.AlertDialog;
 import com.hannahxian.baselibrary.http.HttpUtils;
+import com.hannahxian.baselibrary.http.XutilsHttpEngine;
 import com.hannahxian.easseyjoke.mode.Cuse;
 import com.hannahxian.easseyjoke.mode.Person;
 import com.hannahxian.easseyjoke.mode.ResultBean;
@@ -26,6 +27,10 @@ import com.hannahxian.framelibrary.HttpCallBack;
 import com.hannahxian.framelibrary.db.DaoSupportFactory;
 import com.hannahxian.framelibrary.db.IDaoSupport;
 import com.hannahxian.framelibrary.utils.PermissionUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.List;
 
@@ -49,29 +54,28 @@ public class MainActivity extends BaseSkinActivity {
     @Override
     protected void initData() {
         verifyStoragePermissions(this);
-        /*HttpUtils.with(this).url("http://is.snssdk.com/neihan/stream/mix/v1/").addParam("uuid","359250050588035")
-                .addParam("openudid","12645e537a2f0f25").get().excute(new HttpCallBack<ResultBean>() {
+
+        x.http().post(new RequestParams("http://192.168.9.68:8990/servlet/UpdateServlet"), new Callback.CommonCallback<Object>() {
             @Override
-            public void onError(Exception e) {
+            public void onSuccess(Object result) {
+                Log.i("TAG", "onSuccess: "+result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.e("TAG", "onError: ", ex);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
 
             }
 
             @Override
-            public void onSuccess(ResultBean result) {
-                //可以取消进度条
-                //转换成可操作的对象
+            public void onFinished() {
 
-                Log.i("TAG", "onSuccess: Main = "+result.getData().getTip() );
             }
-
-            @Override
-            public void onPreExcute() {
-                super.onPreExcute();
-                //可以加载进度条
-                Log.i("TAG", "onPreExcute: MainActivity");
-            }
-        });*/
-
+        });
 
     }
 
@@ -105,6 +109,7 @@ public class MainActivity extends BaseSkinActivity {
                     }
                 })*/
                         .setText(R.id.txt,"自己设置的")
+                        .setTitle("从底部弹出")
                         .fullWindow()
                         .fromBottom(false)
                         .addDefaultAnimation()
@@ -118,6 +123,12 @@ public class MainActivity extends BaseSkinActivity {
                         Toast.makeText(MainActivity.this, com_et.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+                com_et.setFocusable(true);
+                com_et.setFocusableInTouchMode(true);
+                com_et.requestFocus();
+                InputMethodManager inputManager =
+                        (InputMethodManager)com_et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(com_et, 0);
                 break;
             case R.id.createtb:
                 IDaoSupport<Person> daoSupport = DaoSupportFactory.getFactory().getDao(Person.class);
@@ -140,12 +151,42 @@ public class MainActivity extends BaseSkinActivity {
 
 
     }
+
+    private void requertData(){
+        HttpUtils.with(this)
+                .url("http://is.snssdk.com/neihan/stream/mix/v1/")
+                .addParam("uuid","359250050588035")
+                .addParam("openudid","12645e537a2f0f25")
+                .exchangeEngine(new XutilsHttpEngine())
+                .post()
+                .excute(new HttpCallBack<ResultBean>() {
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("Tag", "onError: ", e);
+                    }
+
+                    @Override
+                    public void onSuccess(ResultBean result) {
+                        //可以取消进度条
+                        //转换成可操作的对象
+
+                        Log.i("TAG", "onSuccess: Main = "+result.getData().getTip() );
+                    }
+
+                    @Override
+                    public void onPreExcute() {
+                        super.onPreExcute();
+                        //可以加载进度条
+                        Log.i("TAG", "onPreExcute: MainActivity");
+                    }
+                });
+    }
     /**
      * 弹出软键盘
      */
     private void showKeyBoard(EditText editText) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
     }
     /**
      * 收起软键盘

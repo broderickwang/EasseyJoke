@@ -85,6 +85,8 @@ class AlertContoller {
 		public int mAnimation = 0;
 		//高度
 		public int mHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+		//标题
+		public String mTitle = "";
 
 		public AlertParams(Context context, int thm) {
 			this.mContext = context;
@@ -110,6 +112,9 @@ class AlertContoller {
 			}
 			//给dialog设置布局
 			mAlert.getDialog().setContentView(viewHelper.getContentView());
+
+			//设置title
+			mAlert.getDialog().setTitle(mTitle);
 
 			//设置Controller的辅助类Viewhelper
 			mAlert.setViewHelper(viewHelper);

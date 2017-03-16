@@ -45,7 +45,7 @@ public class AlertDialog extends Dialog {
             P = new AlertContoller.AlertParams(context, thm);
         }
 
-        public AlertDialog create() {
+        private AlertDialog create() {
             final AlertDialog dialog = new AlertDialog(P.mContext, P.mThemeResId);
             P.apply(dialog.mAlert);
             dialog.setCancelable(P.mCancelable);
@@ -106,6 +106,11 @@ public class AlertDialog extends Dialog {
          */
         public Builder setText(int viewId,CharSequence text){
             P.mTextArray.put(viewId,text);
+            return this;
+        }
+
+        public Builder setTitle(String title){
+            P.mTitle = title;
             return this;
         }
 
