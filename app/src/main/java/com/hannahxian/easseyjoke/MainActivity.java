@@ -18,6 +18,7 @@ import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.dialog.AlertDialog;
 import com.hannahxian.baselibrary.http.HttpUtils;
+import com.hannahxian.baselibrary.http.RetrofitHttpEngine;
 import com.hannahxian.baselibrary.http.XutilsHttpEngine;
 import com.hannahxian.easseyjoke.mode.Cuse;
 import com.hannahxian.easseyjoke.mode.Person;
@@ -33,6 +34,8 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.util.List;
+
+import retrofit2.Retrofit;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
@@ -51,11 +54,12 @@ public class MainActivity extends BaseSkinActivity {
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
 
+    RetrofitHttpEngine engine;
     @Override
     protected void initData() {
         verifyStoragePermissions(this);
 
-        x.http().post(new RequestParams("http://192.168.9.68:8990/servlet/UpdateServlet"), new Callback.CommonCallback<Object>() {
+       /* x.http().post(new RequestParams("http://192.168.9.68:8990/servlet/UpdateServlet"), new Callback.CommonCallback<Object>() {
             @Override
             public void onSuccess(Object result) {
                 Log.i("TAG", "onSuccess: "+result);
@@ -75,7 +79,9 @@ public class MainActivity extends BaseSkinActivity {
             public void onFinished() {
 
             }
-        });
+        });*/
+
+        requertData();
 
     }
 
@@ -157,7 +163,7 @@ public class MainActivity extends BaseSkinActivity {
                 .url("http://is.snssdk.com/neihan/stream/mix/v1/")
                 .addParam("uuid","359250050588035")
                 .addParam("openudid","12645e537a2f0f25")
-                .exchangeEngine(new XutilsHttpEngine())
+                .exchangeEngine(new RetrofitHttpEngine(IMyRetrofitService.class)/*new XutilsHttpEngine()*/)
                 .post()
                 .excute(new HttpCallBack<ResultBean>() {
                     @Override

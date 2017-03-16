@@ -11,15 +11,15 @@ import java.util.Objects;
  */
 
 public interface IHttpEngine {
-    //POST
-    void post(Context context, String url, Map<String,Object> params, EngineCallback callback);
+	//POST
+	void post(Context context, String url, Map<String, Object> params, EngineCallback callback);
 
-    //GET
-    void get(Context context,String url, Map<String,Object> params,EngineCallback callback);
+	//GET
+	void get(Context context, String url, Map<String, Object> params, EngineCallback callback);
 
-    //Download
+	//Download
 
-    //Upload
+	//Upload
 
-    //https添加证书
+	//https添加证书
 }
