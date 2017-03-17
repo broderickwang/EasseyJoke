@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import java.lang.reflect.Method;
  */
 
 public class ViewUtils  {
+    private static final String TAG = "ViewUtils";
     //目前使用
     public static void inject(Activity activity){
         inject(new ViewFinder(activity),activity);
@@ -44,6 +46,8 @@ public class ViewUtils  {
         for (Field field : fields){
             //获取设置的ViewById
             ViewById viewbyid = field.getAnnotation(ViewById.class);
+
+            Column column = field.getAnnotation(Column.class);
             //如果ViewById不为空
             if(viewbyid != null){
                 //获取注解里面的ID值
@@ -59,6 +63,10 @@ public class ViewUtils  {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
+            }
+            if(column != null){
+                String col = column.value();
+                Log.i(TAG, "injectField: columnName="+col+" fileName = "+field.getName());
             }
         }
 
