@@ -36,4 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="查询课程表"/>
+    <Button
+        android:id="@+id/retro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rtrofit"/>
 </LinearLayout>

@@ -18,7 +18,6 @@ import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.dialog.AlertDialog;
 import com.hannahxian.baselibrary.http.HttpUtils;
-import com.hannahxian.baselibrary.http.RetrofitHttpEngine;
 import com.hannahxian.baselibrary.http.XutilsHttpEngine;
 import com.hannahxian.easseyjoke.mode.Cuse;
 import com.hannahxian.easseyjoke.mode.Person;
@@ -33,9 +32,15 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
@@ -54,35 +59,11 @@ public class MainActivity extends BaseSkinActivity {
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
 
-    RetrofitHttpEngine engine;
     @Override
     protected void initData() {
         verifyStoragePermissions(this);
-
-       /* x.http().post(new RequestParams("http://192.168.9.68:8990/servlet/UpdateServlet"), new Callback.CommonCallback<Object>() {
-            @Override
-            public void onSuccess(Object result) {
-                Log.i("TAG", "onSuccess: "+result);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("TAG", "onError: ", ex);
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });*/
-
-        requertData();
-
+//        requertData();
+        retrofit2();
     }
 
     @Override
@@ -100,7 +81,7 @@ public class MainActivity extends BaseSkinActivity {
 //        startActivity(MainActivity.class);
     }
 
-    @OnClick({R.id.test_tv,R.id.test_iv,R.id.createtb,R.id.create1,R.id.query1})
+    @OnClick({R.id.test_tv,R.id.test_iv,R.id.createtb,R.id.create1,R.id.query1,R.id.retro})
     @CheckNet           //没网不执行，打印没网的tosast
     private void onClick(View v){
         switch (v.getId()){
@@ -153,9 +134,86 @@ public class MainActivity extends BaseSkinActivity {
                 List<Cuse>  obs2  = cuseDao.query("mName=?",args2);
                 Log.i("TAG", "查询到: "+obs2.size()+"条数据， 第一条数据是："+obs2.get(0).getmName() + "-"+obs2.get(0).getmTime());
                 break;
+            case R.id.retro:
+                Toast.makeText(this, "sd", Toast.LENGTH_SHORT).show();
+                retrofit();
+                break;
         }
 
 
+    }
+    private void retrofit(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://news-at.zhihu.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        GetZhihuService github = retrofit.create(GetZhihuService.class);
+        Call<ResponseBody> call = github.getZhihuLastData("latest");
+
+        call.enqueue(new retrofit2.Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i("TAG", "onResponse: "+response);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+    private void retrofit2(){
+        Map<String,String> params = new HashMap<>();
+        params.put("webp","1");
+        params.put("essence","1");
+        params.put("content_type","-10");
+        params.put("message_cursor","-1");
+        params.put("longitude","116.4121485");
+        params.put("latitude","39.9365054");
+        params.put("am_longitude","116.41828");
+        params.put("am_latitude","39.937848");
+        params.put("am_city","北京市");params.put("am_loc_time","1483686438786");
+        params.put("count","30");
+        params.put("min_time","1483929653");
+        params.put("screen_width","1080");
+        params.put("device_id","34822199408");
+        params.put("ac","wifi");
+        params.put("channel","baidu");
+        params.put("aid","7");
+        params.put("app_name","joke_essay");
+        params.put("version_code","590");
+        params.put("version_name","5.9.0");
+        params.put("device_platform","android");
+        params.put("ssmix","a");
+        params.put("device_type","Nexus%2B5");
+        params.put("device_brand","google");
+        params.put("os_api","25");
+        params.put("os_version","7.1");
+        params.put("manifest_version_code","590");
+        params.put("resolution","1080*1776");
+        params.put("dpi","480");
+        params.put("update_version_code","5903");
+        params.put("mpic","1");
+        params.put("uuid","359250050588035");
+        params.put("openudid","12645e537a2f0f25");
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(" http://is.snssdk.com/neihan/stream/mix/v1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        GetZhihuService github = retrofit.create(GetZhihuService.class);
+        Call<ResponseBody> call = github.Get(params);
+
+        call.enqueue(new retrofit2.Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i("TAG", "onResponse: "+response);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     private void requertData(){
@@ -163,7 +221,6 @@ public class MainActivity extends BaseSkinActivity {
                 .url("http://is.snssdk.com/neihan/stream/mix/v1/")
                 .addParam("uuid","359250050588035")
                 .addParam("openudid","12645e537a2f0f25")
-                .exchangeEngine(new RetrofitHttpEngine(IMyRetrofitService.class)/*new XutilsHttpEngine()*/)
                 .post()
                 .excute(new HttpCallBack<ResultBean>() {
                     @Override
