@@ -1,5 +1,7 @@
 package com.hannahxian.easseyjoke;
 
+import com.hannahxian.baselibrary.http.IRetrofitService;
+
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -11,7 +13,7 @@ import retrofit2.http.QueryMap;
 /**
  * Created by Broderick on 16/9/12.
  */
-public interface GetZhihuService {
+public interface GetZhihuService extends IRetrofitService {
 	@GET("/api/4/start-image/{size}")
 	Call<ResponseBody> getSplash(@Path("size") String size);
 

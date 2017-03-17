@@ -14,10 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hannahxian.baselibrary.IOC.CheckNet;
+import com.hannahxian.baselibrary.IOC.CheckPermission;
+import com.hannahxian.baselibrary.IOC.Column;
 import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.dialog.AlertDialog;
 import com.hannahxian.baselibrary.http.HttpUtils;
+import com.hannahxian.baselibrary.http.RetrofitEngine;
 import com.hannahxian.baselibrary.http.XutilsHttpEngine;
 import com.hannahxian.easseyjoke.mode.Cuse;
 import com.hannahxian.easseyjoke.mode.Person;
@@ -49,6 +52,9 @@ public class MainActivity extends BaseSkinActivity {
     @ViewById(R.id.test_tv)
     private TextView mTextView;
 
+    @Column("student-name")
+    private String name = "sdf";
+
     private IDaoSupport<Cuse> cuseDao;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -63,7 +69,7 @@ public class MainActivity extends BaseSkinActivity {
     protected void initData() {
         verifyStoragePermissions(this);
 //        requertData();
-        retrofit2();
+//        retrofit2();
     }
 
     @Override
@@ -221,6 +227,7 @@ public class MainActivity extends BaseSkinActivity {
                 .url("http://is.snssdk.com/neihan/stream/mix/v1/")
                 .addParam("uuid","359250050588035")
                 .addParam("openudid","12645e537a2f0f25")
+                .exchangeEngine(new RetrofitEngine(GetZhihuService.class))
                 .post()
                 .excute(new HttpCallBack<ResultBean>() {
                     @Override
