@@ -1,4 +1,4 @@
-package com.hannahxian.baselibrary.commonadapter;
+package com.hannahxian.baselibrary.CommonRecycleAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

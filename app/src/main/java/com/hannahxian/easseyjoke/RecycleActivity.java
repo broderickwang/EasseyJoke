@@ -4,7 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.hannahxian.baselibrary.commonadapter.OnItemClickListener;
+import com.hannahxian.baselibrary.CommonRecycleAdapter.OnItemClickListener;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.base.BaseActivity;
 

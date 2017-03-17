@@ -2,8 +2,8 @@ package com.hannahxian.easseyjoke;
 
 import android.content.Context;
 
-import com.hannahxian.baselibrary.commonadapter.CommonRecyclerAdapter;
-import com.hannahxian.baselibrary.commonadapter.ViewHolder;
+import com.hannahxian.baselibrary.CommonRecycleAdapter.CommonRecyclerAdapter;
+import com.hannahxian.baselibrary.CommonRecycleAdapter.ViewHolder;
 
 import java.util.List;
 
