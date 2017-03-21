@@ -13,6 +13,8 @@ public interface IDaoSupport<T> {
 
     public long insert(T t);
 
+    public void insert(List<T> datas);
+
     public void update(T t);
 
     public List<T> query(String selction, String[] selectionArgs);

@@ -3,6 +3,7 @@ package com.hannahxian.framelibrary.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import java.io.File;
@@ -10,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hannahxian on 2017/3/14.
@@ -19,6 +21,10 @@ public class DaoSupport<T> implements IDaoSupport<T> {
 
     private SQLiteDatabase mSqlLiteDatabase;
     private Class<T> mClaz;
+
+    public static final Object[] mPutMethodArgs = new Object[2];
+
+    public static final Map<String,Method> mPutMethods = new ArrayMap<>();
 
     @Override
     public void init(SQLiteDatabase database,Class<T> claz){
@@ -67,7 +73,7 @@ public class DaoSupport<T> implements IDaoSupport<T> {
         Field[] fields = claz.getDeclaredFields();
         ContentValues cv = new ContentValues();
         for (Field f : fields){
-            if(f.getGenericType().toString().equalsIgnoreCase("class java.lang.String")){
+            /*if(f.getGenericType().toString().equalsIgnoreCase("class java.lang.String")){
                 try {
                     Method m = claz.getMethod("get"+f.getName());
                     String val = (String) m.invoke(t);
@@ -83,6 +89,31 @@ public class DaoSupport<T> implements IDaoSupport<T> {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }*/
+            try {
+                //设置权限
+                f.setAccessible(true);
+                String key = f.getName();
+                Object value = f.get(key);
+
+                mPutMethodArgs[0] = key;
+                mPutMethodArgs[1] = value;
+
+                // 缓存方法
+                String fieldTypeName = f.getType().getName();
+                Method putMethod = mPutMethods.get(fieldTypeName);
+                if(putMethod == null){
+                    putMethod = ContentValues.class.getDeclaredMethod("put",
+                            String.class,value.getClass());
+                    mPutMethods.put(fieldTypeName,putMethod);
+                }
+
+                putMethod.invoke(cv,mPutMethodArgs);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+                mPutMethodArgs[0] = null;
+                mPutMethodArgs[1] = null;
             }
 
         }
@@ -96,13 +127,19 @@ public class DaoSupport<T> implements IDaoSupport<T> {
     }
 
     @Override
+    public void insert(List<T> datas) {
+        for (T data : datas) {
+            insert(data);
+        }
+    }
+
+    @Override
     public void update(T t) {
 
     }
 
     @Override
     public List<T> query(String selction, String[] selectionArgs) {
-//        String tableName = claz.getSimpleName();
         String tableName = this.mClaz.getSimpleName();
         Cursor c = mSqlLiteDatabase.query(tableName, null, selction, selectionArgs, null, null, null, null);
         T obj = null;
