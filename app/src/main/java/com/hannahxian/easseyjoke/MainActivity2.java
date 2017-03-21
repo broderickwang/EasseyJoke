@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.hannahxian.easseyjoke.mode.Cuse;
 import com.hannahxian.easseyjoke.mode.Person;
 import com.hannahxian.easseyjoke.mode.ResultBean;
 import com.hannahxian.framelibrary.BaseSkinActivity;
+import com.hannahxian.framelibrary.DefaultNavigationBar;
 import com.hannahxian.framelibrary.HttpCallBack;
 import com.hannahxian.framelibrary.db.DaoSupportFactory;
 import com.hannahxian.framelibrary.db.IDaoSupport;
@@ -79,6 +81,8 @@ public class MainActivity2 extends BaseSkinActivity {
 
     @Override
     protected void initTile() {
+        DefaultNavigationBar navigationBar = new DefaultNavigationBar.Builder(this,
+                (ViewGroup) findViewById(R.id.activity_main)).build();
     }
 
     @Override
