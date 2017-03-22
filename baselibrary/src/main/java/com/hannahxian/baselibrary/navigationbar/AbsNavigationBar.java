@@ -13,7 +13,7 @@ import android.widget.TextView;
  * Created by Broderick on 2017/3/21.
  */
 
-public abstract class AbsNavigationBar<P extends AbsNavigationBar.Builder.AbaNavigationParams> implements INavigationBar {
+public abstract class AbsNavigationBar<P extends AbsNavigationBar.Builder.NavigationParams> implements INavigationBar {
 
 	private P mParams;
 
@@ -44,6 +44,11 @@ public abstract class AbsNavigationBar<P extends AbsNavigationBar.Builder.AbaNav
 	protected void setImageSource(int viewId,int resourceId){
 		ImageView iv = findViewById(viewId);
 		iv.setImageResource(resourceId);
+	}
+
+	protected void setBackground(int viewId,int bgColor){
+		View view = findViewById(viewId);
+		view.setBackgroundColor(bgColor);
 	}
 
 	protected void setOnClickListner(int viewId, View.OnClickListener listener){
@@ -83,11 +88,11 @@ public abstract class AbsNavigationBar<P extends AbsNavigationBar.Builder.AbaNav
 		public abstract AbsNavigationBar create();
 
 
-		public static class AbaNavigationParams{
+		public static class NavigationParams{
 			public Context mContext;
 			public ViewGroup mParent;
 
-			public AbaNavigationParams(Context context,ViewGroup parent) {
+			public NavigationParams(Context context,ViewGroup parent) {
 				this.mContext = context;
 				this.mParent = parent;
 			}

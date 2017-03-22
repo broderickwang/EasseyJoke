@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,27 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hannahxian.baselibrary.IOC.CheckNet;
-import com.hannahxian.baselibrary.IOC.CheckPermission;
 import com.hannahxian.baselibrary.IOC.Column;
 import com.hannahxian.baselibrary.IOC.OnClick;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.dialog.AlertDialog;
 import com.hannahxian.baselibrary.http.HttpUtils;
 import com.hannahxian.baselibrary.http.RetrofitEngine;
-import com.hannahxian.baselibrary.http.XutilsHttpEngine;
 import com.hannahxian.easseyjoke.mode.Cuse;
 import com.hannahxian.easseyjoke.mode.Person;
 import com.hannahxian.easseyjoke.mode.ResultBean;
 import com.hannahxian.framelibrary.BaseSkinActivity;
 import com.hannahxian.framelibrary.DefaultNavigationBar;
+import com.hannahxian.framelibrary.DefaultNavigationBar2;
 import com.hannahxian.framelibrary.HttpCallBack;
 import com.hannahxian.framelibrary.db.DaoSupportFactory;
 import com.hannahxian.framelibrary.db.IDaoSupport;
-import com.hannahxian.framelibrary.utils.PermissionUtils;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,8 +39,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class MainActivity2 extends BaseSkinActivity {
 
@@ -81,8 +72,18 @@ public class MainActivity2 extends BaseSkinActivity {
 
     @Override
     protected void initTile() {
-        DefaultNavigationBar navigationBar = new DefaultNavigationBar.Builder(this,
-                (ViewGroup) findViewById(R.id.activity_main)).build();
+        DefaultNavigationBar2 navigationBar2 =
+                new DefaultNavigationBar2
+                        .Builder(this, (ViewGroup) findViewById(R.id.content))
+                        .setTitle("投稿")
+                        .setRightText("发布")
+                        .setRightClickListner(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity2.this, "ceshi", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .builder();
     }
 
     @Override
