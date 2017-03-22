@@ -26,7 +26,7 @@ public class DefaultNavigationBar extends AbsNavigationBar {
 		//绑定效果
 	}
 
-	public static class Builder extends AbsNavigationBar.Builder{
+	/*public static class Builder extends AbsNavigationBar.Builder{
 
 		DefaultNavigationParams P;
 
@@ -54,5 +54,5 @@ public class DefaultNavigationBar extends AbsNavigationBar {
 				super(context, parent);
 			}
 		}
-	}
+	}*/
 }
