@@ -30,10 +30,13 @@ import com.hannahxian.framelibrary.HttpCallBack;
 import com.hannahxian.framelibrary.db.DaoSupportFactory;
 import com.hannahxian.framelibrary.db.IDaoSupport;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import org.reactivestreams.Subscription;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -58,6 +61,8 @@ public class MainActivity2 extends BaseSkinActivity {
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
 
+    private TextView mResult;
+
     @Override
     protected void initData() {
         verifyStoragePermissions(this);
@@ -68,6 +73,7 @@ public class MainActivity2 extends BaseSkinActivity {
     @Override
     protected void initView() {
         mTextView = viewById(R.id.test_tv);
+        mResult = viewById(R.id.result);
     }
 
     @Override
@@ -91,8 +97,9 @@ public class MainActivity2 extends BaseSkinActivity {
         setContentView(R.layout.activity_main);
     }
 
+
+    //@CheckNet           //没网不执行，打印没网的tosast
     @OnClick({R.id.test_tv,R.id.test_iv,R.id.createtb,R.id.create1,R.id.query1,R.id.retro})
-    @CheckNet           //没网不执行，打印没网的tosast
     private void onClick(View v){
         switch (v.getId()){
             case R.id.test_iv:
@@ -148,24 +155,34 @@ public class MainActivity2 extends BaseSkinActivity {
 
     }
     private void retrofit(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://news-at.zhihu.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        GetZhihuService github = retrofit.create(GetZhihuService.class);
-        Call<ResponseBody> call = github.getZhihuLastData("latest");
 
-        call.enqueue(new retrofit2.Callback<ResponseBody>() {
+        Observer<MovieEnty> subscriber = new Observer<MovieEnty>() {
+
+
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.i("TAG", "onResponse: "+response);
+            public void onSubscribe(Disposable d) {
+
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+            public void onNext(MovieEnty value) {
+//                mResult.setText(value.getCount());
+                Toast.makeText(MainActivity2.this, value.getCount(), Toast.LENGTH_SHORT).show();
             }
-        });
+
+            @Override
+            public void onError(Throwable e) {
+                mResult.setText(e.getLocalizedMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                Toast.makeText(MainActivity2.this, "complete", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        HttpMethodsRetrofit.getInstance().getTopMovie(subscriber,0,10);
+
     }
     private void retrofit2(){
         Map<String,String> params = new HashMap<>();

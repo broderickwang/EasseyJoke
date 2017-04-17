@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.hannahxian.baselibrary.CommonRecycleAdapter.MultiTypeSupport;
 import com.hannahxian.baselibrary.CommonRecycleAdapter.OnItemClickListener;
 import com.hannahxian.baselibrary.IOC.ViewById;
 import com.hannahxian.baselibrary.base.BaseActivity;
@@ -31,7 +32,13 @@ public class RecycleActivity extends BaseActivity {
 			strs.add(i+"");
 		}
 
-		MyRecycleAdapter adapter = new MyRecycleAdapter(this,strs,R.layout.test_recycle);
+//		MyRecycleAdapter adapter = new MyRecycleAdapter(this,strs,R.layout.test_recycle);
+		MyRecycleAdapter adapter = new MyRecycleAdapter(this, strs, new MultiTypeSupport<String>() {
+			@Override
+			public int getLayoutId(String item, int position) {
+				return R.layout.test_recycle;
+			}
+		});
 
 		mRecycleView.setAdapter(adapter);
 

@@ -3,6 +3,7 @@ package com.hannahxian.easseyjoke;
 import android.content.Context;
 
 import com.hannahxian.baselibrary.CommonRecycleAdapter.CommonRecyclerAdapter;
+import com.hannahxian.baselibrary.CommonRecycleAdapter.MultiTypeSupport;
 import com.hannahxian.baselibrary.CommonRecycleAdapter.ViewHolder;
 
 import java.util.List;
@@ -12,11 +13,17 @@ import java.util.List;
  */
 
 public class MyRecycleAdapter extends CommonRecyclerAdapter<String> {
+	public MyRecycleAdapter(Context context, List<String> data, MultiTypeSupport<String> multiTypeSupport) {
+		super(context, data, multiTypeSupport);
+	}
 
 
 	public MyRecycleAdapter(Context mContext, List<String> mDatas, int mLayoutId) {
 		super(mContext, mDatas, mLayoutId);
 	}
+
+
+
 
 	@Override
 	public void convert(final ViewHolder holder, final String item) {
