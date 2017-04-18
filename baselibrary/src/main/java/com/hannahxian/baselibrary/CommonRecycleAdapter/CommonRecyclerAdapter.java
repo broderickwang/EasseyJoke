@@ -41,6 +41,9 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<View
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		if (mMultiTypeSupport!=null){
+			mLayoutId = viewType;
+		}
 		View itemView = mInflater.inflate(mLayoutId,parent,false);
 		ViewHolder holder = new ViewHolder(itemView);
 		return holder;

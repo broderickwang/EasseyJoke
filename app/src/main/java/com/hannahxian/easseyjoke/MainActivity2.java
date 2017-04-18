@@ -3,6 +3,7 @@ package com.hannahxian.easseyjoke;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -149,6 +150,11 @@ public class MainActivity2 extends BaseSkinActivity {
             case R.id.retro:
                 Toast.makeText(this, "sd", Toast.LENGTH_SHORT).show();
                 retrofit();
+                break;
+            case R.id.recy:
+                Toast.makeText(this, "jump", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(MainActivity2.this,RecycleActivity.class);
+                startActivity(i);
                 break;
         }
 

@@ -13,6 +13,7 @@ import java.util.List;
  */
 
 public class MyRecycleAdapter extends CommonRecyclerAdapter<String> {
+	private int layoutId;
 	public MyRecycleAdapter(Context context, List<String> data, MultiTypeSupport<String> multiTypeSupport) {
 		super(context, data, multiTypeSupport);
 	}
@@ -20,6 +21,7 @@ public class MyRecycleAdapter extends CommonRecyclerAdapter<String> {
 
 	public MyRecycleAdapter(Context mContext, List<String> mDatas, int mLayoutId) {
 		super(mContext, mDatas, mLayoutId);
+		this.layoutId = mLayoutId;
 	}
 
 
@@ -38,6 +40,6 @@ public class MyRecycleAdapter extends CommonRecyclerAdapter<String> {
 
 	@Override
 	public int getLayoutId(Object item, int position) {
-		return 0;
+		return layoutId;
 	}
 }
