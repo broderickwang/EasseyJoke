@@ -8,4 +8,9 @@
     <declare-styleable name="TrackIndicatorView">
         <attr name="tabVisibleNums" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="WangcdImageView">
+        <attr name="imgsrc" format="reference"/>
+        <attr name="imgname" format="string"/>
+    </declare-styleable>
 </resources>

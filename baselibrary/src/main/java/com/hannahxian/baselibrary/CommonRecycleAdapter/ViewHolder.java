@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hannahxian.baselibrary.View.WangcdImageView;
+
 /**
  * Created by Broderick on 2017/3/17.
  */
@@ -31,6 +33,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 	public ViewHolder setText(int viewId,CharSequence text){
 		TextView textView = getView(viewId);
 		textView.setText(text);
+		return this;
+	}
+
+	public ViewHolder setText_wangcd(int viewId,CharSequence text){
+		WangcdImageView view = getView(viewId);
+		view.setText(text);
 		return this;
 	}
 
