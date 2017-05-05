@@ -36,14 +36,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         //初始化数据
         initData();
     }
+    protected abstract void setContentView();
 
     protected abstract void initData();
 
     protected abstract void initView();
 
     protected abstract void initTile();
-
-    protected abstract void setContentView();
 
     protected void startActivity(Class<?> claz){
         Intent intent = new Intent(this,claz);
