@@ -1,101 +1,92 @@
 package com.hannahxian.baselibrary.navigationbar;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * 头部的基类
- * Created by Broderick on 2017/3/21.
+ * Created by hannahxian on 2017/3/22.
  */
 
-public abstract class AbsNavigationBar<P extends AbsNavigationBar.Builder.NavigationParams> implements INavigationBar {
+public abstract class AbsNavigationBar<P extends AbsNavigationBar.Builder.AbsNavigationParams> implements INavigationBar {
 
-	private P mParams;
+    private P mParams;
 
-	private View mView;
+    private View mNavigaitionView;
 
-	public AbsNavigationBar(P mParams) {
-		this.mParams = mParams;
-		createAndBindView();
-	}
+    public AbsNavigationBar(P mParams) {
+        this.mParams = mParams;
+        createAndBindView();
+    }
 
-	protected String getString(int id){
-		return this.mParams.mContext.getResources().getString(id);
-	}
+    /**
+     * bind and create view
+     */
+    private void createAndBindView() {
+        //1.create view
+        if(mParams.mParent == null){
+            //获取activity的根布局
+            ViewGroup activityViewRoot = (ViewGroup)((Activity)(mParams.mContext)).findViewById(android.R.id.content);
+            mParams.mParent = (ViewGroup)activityViewRoot.getChildAt(0);
+        }
 
-	protected int getColor(int id){
-		return ContextCompat.getColor(this.mParams.mContext,id);
-	}
+        if(mParams.mParent == null){
+            return;
+        }
 
-	protected P getmParams(){
-		return  mParams;
-	}
+        mNavigaitionView = LayoutInflater.from(mParams.mContext).inflate(bindLayoutId(),mParams.mParent,false);
+        //2.add view to parent
+        mParams.mParent.addView(mNavigaitionView,0);
 
-	protected void setText(int viewId,CharSequence text){
-		TextView tv = findViewById(viewId);
-		tv.setText(text);
-	}
+        applyView();
+    }
 
-	protected void setImageSource(int viewId,int resourceId){
-		ImageView iv = findViewById(viewId);
-		iv.setImageResource(resourceId);
-	}
+    public P getParams() {
+        return mParams;
+    }
 
-	protected void setBackground(int viewId,int bgColor){
-		View view = findViewById(viewId);
-		view.setBackgroundColor(bgColor);
-	}
+    protected void setText(int viewId,String text){
+        TextView tv =  findViewById(viewId);
+        if(TextUtils.isEmpty(text)){
+            tv.setVisibility(View.GONE);
+        }else
+            tv.setText(text);
+    }
 
-	protected void setOnClickListner(int viewId, View.OnClickListener listener){
-		View view = findViewById(viewId);
-		view.setOnClickListener(listener);
-	}
+    protected void setOnClickListner(int viewId, View.OnClickListener listener){
+        View view = findViewById(viewId);
+        view.setOnClickListener(listener);
+    }
 
-	protected <T extends View>T findViewById(int id){
-		return (T)mView.findViewById(id);
-	}
+    public <T extends View> T findViewById(int viewId){
+        return (T) mNavigaitionView.findViewById(viewId);
+    }
 
-	/**
-	 * 绑定和创建view
-	 */
-	private void createAndBindView() {
-		if(mParams == null)
-			return;
-		//创建view
-		mView = LayoutInflater.from(mParams.mContext)
-				.inflate(bindLayoutId(),mParams.mParent,false);
-		//添加
-		mParams.mParent.addView(mView,0);
+    public abstract static class Builder{
+        AbsNavigationParams P;
 
-		//绑定参数
-		applyView();
-	}
+        public Builder(Context context, ViewGroup parent){
+            P = new AbsNavigationParams(context,parent);
+        }
 
-	public abstract static class Builder{
-		/*AbaNavigationParams P;
+        public abstract AbsNavigationBar builder();
 
-		public Builder(Context context, ViewGroup parent){
-			//创建 P = NEW
-			P = new AbaNavigationParams(context,parent);
+        public static class AbsNavigationParams{
 
-		}*/
+            public Context mContext;
 
-		public abstract AbsNavigationBar create();
+            public ViewGroup mParent;
 
 
-		public static class NavigationParams{
-			public Context mContext;
-			public ViewGroup mParent;
 
-			public NavigationParams(Context context,ViewGroup parent) {
-				this.mContext = context;
-				this.mParent = parent;
-			}
-		}
-	}
+            public AbsNavigationParams(Context context,ViewGroup parent){
+                this.mContext = context;
+                this.mParent = parent;
+            }
+        }
+    }
 }

@@ -13,21 +13,19 @@
         android:id="@+id/iv_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_sort_by_size"
+        app:srcCompat="@drawable/back"
         android:layout_alignParentLeft="true"/>
 
     <TextView
         android:id="@+id/left_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_toRightOf="@+id/iv_left"/>
 
     <TextView
         android:id="@+id/title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_toRightOf="@+id/left_tv"
         android:layout_toLeftOf="@+id/right_tv"
         android:gravity="center"/>
@@ -36,14 +34,12 @@
         android:id="@+id/right_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_toLeftOf="@+id/iv_right"/>
 
     <ImageView
         android:id="@+id/iv_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_share"
         android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
