@@ -1,9 +1,11 @@
 package com.hannahxian.baselibrary.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.hannahxian.baselibrary.R;
 import com.hannahxian.baselibrary.navigationbar.AbsNavigationBar;
@@ -32,6 +34,7 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
         setText(R.id.right_tv,getParams().mRightText);
         setOnClickListner(R.id.iv_right,getParams().mRightClickListner);
         //左边写一个默认的
+        setOnClickListner(R.id.iv_left,getParams().mLeftClickListner);
 
     }
 
@@ -100,7 +103,12 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
             public ImageView mLeftImage;
 
             public View.OnClickListener mRightClickListner;
-            public View.OnClickListener mLeftClickListner;
+            public View.OnClickListener mLeftClickListner = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((Activity)mContext).finish();
+                }
+            };
 
             DefaultNavigationParams(Context context, ViewGroup parent) {
                 super(context, parent);
