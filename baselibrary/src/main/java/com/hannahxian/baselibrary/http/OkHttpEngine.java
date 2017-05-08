@@ -28,7 +28,7 @@ public class OkHttpEngine implements IHttpEngine {
 	private static OkHttpClient mOkHttpClient = new OkHttpClient();
 
 	@Override
-	public void post(Context context, String url, Map<String, Object> params, final EngineCallback callback) {
+	public void post(boolean cache,Context context, String url, Map<String, Object> params, final EngineCallback callback) {
 		final String jointUrl = HttpUtils.jointParams(url, params);//打印
 		Log.i("OkHttpEngine POST请求路径：", jointUrl);
 
@@ -58,9 +58,15 @@ public class OkHttpEngine implements IHttpEngine {
 	}
 
 	@Override
-	public void get(Context context, String url, Map<String, Object> params, final EngineCallback callback) {
+	public void get(boolean cache,Context context, String url, Map<String, Object> params, final EngineCallback callback) {
 		url = HttpUtils.jointParams(url, params);
 		Log.i("OkHttpEngine GET请求路径：", url);
+
+		//首先判断需不需要缓存，然后判断有没有
+		if(cache){
+			//需要缓存,拿缓存
+			// TODO: 2017/5/8 缓存包含业务逻辑，该类上移到framelibrary中，进行缓存的拿取
+		}
 
 		Request.Builder requestBuilder = new Request.Builder().url(url).tag(context);
 		//可以省略，默认是GET请求

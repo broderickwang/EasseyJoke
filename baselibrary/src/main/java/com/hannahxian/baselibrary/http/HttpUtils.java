@@ -28,6 +28,9 @@ public class HttpUtils {
 	//往后台发送的参数
 	private Map<String, Object> mParams;
 
+	//是否读取缓存
+	private boolean mCache = false;
+
 	private HttpUtils(Context context) {
 		mContext = context;
 //        mParams = new ArrayMap<>(); //ArrayMap比HashMap更高效
@@ -75,6 +78,11 @@ public class HttpUtils {
 		return this;
 	}
 
+	public HttpUtils cache(boolean isCache){
+		mCache = isCache;
+		return this;
+	}
+
 	//添加回调，执行
 	public void excute(EngineCallback callback) {
 
@@ -109,11 +117,11 @@ public class HttpUtils {
 
 
 	private void post(String url, Map<String, Object> params, EngineCallback callback) {
-		mHttpEngine.post(mContext, url, params, callback);
+		mHttpEngine.post(mCache,mContext, url, params, callback);
 	}
 
 	private void get(String url, Map<String, Object> params, EngineCallback callback) {
-		mHttpEngine.get(mContext, url, params, callback);
+		mHttpEngine.get(mCache,mContext, url, params, callback);
 	}
 
 	/**

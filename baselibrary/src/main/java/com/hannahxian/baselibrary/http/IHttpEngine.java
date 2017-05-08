@@ -12,10 +12,10 @@ import java.util.Objects;
 
 public interface IHttpEngine {
 	//POST
-	void post(Context context, String url, Map<String, Object> params, EngineCallback callback);
+	void post(boolean cache,Context context, String url, Map<String, Object> params, EngineCallback callback);
 
 	//GET
-	void get(Context context, String url, Map<String, Object> params, EngineCallback callback);
+	void get(boolean cache,Context context, String url, Map<String, Object> params, EngineCallback callback);
 
 	//Download
 

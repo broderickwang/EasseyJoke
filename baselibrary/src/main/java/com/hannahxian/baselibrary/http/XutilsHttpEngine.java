@@ -12,7 +12,7 @@ import java.util.Map;
 public class XutilsHttpEngine implements IHttpEngine {
 
 	@Override
-	public void post(Context context, String url, Map<String, Object> params, final EngineCallback callback) {
+	public void post(boolean cache,Context context, String url, Map<String, Object> params, final EngineCallback callback) {
 		final String jointUrl = HttpUtils.jointParams(url, params);//打印
 		Log.i("xutils POST请求路径：", jointUrl);
 		x.http().post(changeParams(url, params), new Callback.CommonCallback<Object>() {
@@ -39,7 +39,7 @@ public class XutilsHttpEngine implements IHttpEngine {
 	}
 
 	@Override
-	public void get(Context context, String url, Map<String, Object> params, final EngineCallback callback) {
+	public void get(boolean cache,Context context, String url, Map<String, Object> params, final EngineCallback callback) {
 		x.http().get(changeParams(url, params), new Callback.CommonCallback<Object>() {
 			@Override
 			public void onSuccess(Object result) {

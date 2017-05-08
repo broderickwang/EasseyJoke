@@ -27,7 +27,7 @@ public class RetrofitEngine<T> implements IHttpEngine {
 	}
 
 	@Override
-	public void post(Context context, String url, Map<String, Object> params, EngineCallback callback) {
+	public void post(boolean cache,Context context, String url, Map<String, Object> params, EngineCallback callback) {
 		Retrofit retrofit = new Retrofit.Builder()
 				.baseUrl(url)
 				.addConverterFactory(GsonConverterFactory.create())
@@ -48,7 +48,7 @@ public class RetrofitEngine<T> implements IHttpEngine {
 	}
 
 	@Override
-	public void get(Context context, String url, Map<String, Object> params, EngineCallback callback) {
+	public void get(boolean cache,Context context, String url, Map<String, Object> params, EngineCallback callback) {
 
 	}
 	private Map<String,String> changeParams( Map<String, Object> params) {

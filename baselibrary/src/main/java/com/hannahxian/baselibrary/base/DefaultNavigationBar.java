@@ -29,13 +29,13 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
     @Override
     public void applyView() {
         //bind effects
-        setText(R.id.title_tv,getParams().mTitle);
-        setText(R.id.right_tv,getParams().mRightText);
-        setTitlebarHeight(R.id.title_bar,getParams().mTitlebarHeight);
+        setText(R.id.title,getParams().mTitle);
+        setText(R.id.right_text,getParams().mRightText);
+//        setTitlebarHeight(R.id.title_bar,getParams().mTitlebarHeight);
         setTitleBarColor(R.id.title_bar,getParams().mTitleBarColor);
-        setOnClickListner(R.id.iv_right,getParams().mRightClickListner);
+        setOnClickListner(R.id.right_text,getParams().mRightClickListner);
         //左边写一个默认的
-        setOnClickListner(R.id.iv_left,getParams().mLeftClickListner);
+        setOnClickListner(R.id.back,getParams().mLeftClickListner);
 
     }
 
@@ -113,7 +113,7 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
             public String mLeftText;
             public ImageView mRightImage;
             public ImageView mLeftImage;
-            public int mTitleBarColor = mContext.getResources().getColor(R.color.colorBottom);
+            public int mTitleBarColor = mContext.getResources().getColor(R.color.title_bar_bg_day);
             public int mTitlebarHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
 
             public View.OnClickListener mRightClickListner;
