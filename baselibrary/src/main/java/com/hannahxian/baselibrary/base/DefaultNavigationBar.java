@@ -1,12 +1,14 @@
 package com.hannahxian.baselibrary.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.hannahxian.baselibrary.R;
-import com.hannahxian.baselibrary.navigationbar.AbsNavigationBar2;
+import com.hannahxian.baselibrary.navigationbar.AbsNavigationBar;
 
 /**
  * Created by hannahxian on 2017/3/22.
@@ -15,7 +17,7 @@ import com.hannahxian.baselibrary.navigationbar.AbsNavigationBar2;
  * Description:Default
  */
 
-public class DefaultNavigationBar extends AbsNavigationBar2<DefaultNavigationBar.Builder.DefaultNavigationParams> {
+public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.Builder.DefaultNavigationParams> {
     public DefaultNavigationBar(Builder.DefaultNavigationParams mParams) {
         super(mParams);
     }
@@ -32,16 +34,22 @@ public class DefaultNavigationBar extends AbsNavigationBar2<DefaultNavigationBar
         setText(R.id.right_tv,getParams().mRightText);
         setOnClickListner(R.id.iv_right,getParams().mRightClickListner);
         //左边写一个默认的
+        setOnClickListner(R.id.iv_left,getParams().mLeftClickListner);
 
     }
 
-    public static class Builder extends AbsNavigationBar2.Builder{
+    public static class Builder extends AbsNavigationBar.Builder{
 
         DefaultNavigationParams P;
 
         public Builder(Context context, ViewGroup parent) {
             super(context, parent);
             P = new DefaultNavigationParams(context,parent);
+        }
+
+        public Builder(Context context){
+            super(context, null);
+            P = new DefaultNavigationParams(context,null);
         }
 
         @Override
@@ -95,7 +103,12 @@ public class DefaultNavigationBar extends AbsNavigationBar2<DefaultNavigationBar
             public ImageView mLeftImage;
 
             public View.OnClickListener mRightClickListner;
-            public View.OnClickListener mLeftClickListner;
+            public View.OnClickListener mLeftClickListner = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((Activity)mContext).finish();
+                }
+            };
 
             DefaultNavigationParams(Context context, ViewGroup parent) {
                 super(context, parent);

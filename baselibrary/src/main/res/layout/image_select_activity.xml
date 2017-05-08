@@ -4,15 +4,15 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/imgs"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:id="@+id/select_images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:padding="8dp"
+        android:background="@color/colorBottom">
         <TextView
             android:id="@+id/preview"
             android:layout_width="wrap_content"
