@@ -2,11 +2,15 @@ package com.hannahxian.baselibrary.navigationbar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.hannahxian.baselibrary.R;
 
 /**
  * Created by hannahxian on 2017/3/22.
@@ -60,6 +64,18 @@ public abstract class AbsNavigationBar<P extends AbsNavigationBar.Builder.AbsNav
     protected void setOnClickListner(int viewId, View.OnClickListener listener){
         View view = findViewById(viewId);
         view.setOnClickListener(listener);
+    }
+
+    protected void setTitlebarHeight(int viewId, int height){
+        RelativeLayout view = findViewById(viewId);
+        ViewGroup.LayoutParams params=view.getLayoutParams();
+        params.height = height ;
+        view.setLayoutParams(params);
+    }
+
+    protected void setTitleBarColor(int viewId,int color){
+        RelativeLayout view  = findViewById(viewId);
+        view.setBackgroundColor(color);
     }
 
     public <T extends View> T findViewById(int viewId){

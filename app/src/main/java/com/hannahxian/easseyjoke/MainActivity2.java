@@ -78,8 +78,7 @@ public class MainActivity2 extends BaseSkinActivity {
 
     @Override
     protected void initTile() {
-        DefaultNavigationBar navigationBar2 =
-                new DefaultNavigationBar
+        new DefaultNavigationBar
                         .Builder(this)
                         .setTitle("投稿")
                         .setRightText("发布")

@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.CheckBox;
+
 import com.hannahxian.baselibrary.CommonRecycleAdapter.MultiTypeSupport;
+import com.hannahxian.baselibrary.CommonRecycleAdapter.OnItemClickListener;
 import com.hannahxian.baselibrary.R;
 import com.hannahxian.baselibrary.adapter.SelectImageListAdapter;
 import com.hannahxian.baselibrary.bean.ImageEntity;
@@ -64,6 +68,11 @@ public class SelectImageActivity extends BaseActivity {
 	@Override
 	protected void initData() {
 		//上一个页面传过来的参数
+		mShowCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA,false);
+
+		mMaxCount = getIntent().getIntExtra(EXTRA_SELECT_COUNT,9);
+
+		mMode = getIntent().getIntExtra(EXTRA_SELECT_MODE,MODE_MULTI);
 	}
 
 	@Override
@@ -156,6 +165,14 @@ public class SelectImageActivity extends BaseActivity {
 					layoutId = R.layout.select_image_adapter_layout;
 				}
 				return layoutId;
+			}
+		});
+		adapter.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public boolean onClick(View view,int v) {
+				CheckBox checkBox = (CheckBox)view.findViewById(R.id.img_checkBox);
+				checkBox.setChecked(!checkBox.isChecked());
+				return false;
 			}
 		});
 

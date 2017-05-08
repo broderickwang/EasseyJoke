@@ -15,7 +15,9 @@ public interface IDaoSupport<T> {
 
     public void insert(List<T> datas);
 
-    public void update(T t);
+    public int delete(String whereClause,String... whereArgs);
+
+    public int update(T t,String whereClause,String... whereArgs);
 
     public List<T> query(String selction, String[] selectionArgs);
 }

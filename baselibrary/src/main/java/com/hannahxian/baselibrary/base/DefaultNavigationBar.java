@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.hannahxian.baselibrary.R;
 import com.hannahxian.baselibrary.navigationbar.AbsNavigationBar;
@@ -32,6 +31,8 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
         //bind effects
         setText(R.id.title_tv,getParams().mTitle);
         setText(R.id.right_tv,getParams().mRightText);
+        setTitlebarHeight(R.id.title_bar,getParams().mTitlebarHeight);
+        setTitleBarColor(R.id.title_bar,getParams().mTitleBarColor);
         setOnClickListner(R.id.iv_right,getParams().mRightClickListner);
         //左边写一个默认的
         setOnClickListner(R.id.iv_left,getParams().mLeftClickListner);
@@ -54,8 +55,8 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
 
         @Override
         public DefaultNavigationBar builder() {
-            DefaultNavigationBar navigationBar2 = new DefaultNavigationBar(P);
-            return navigationBar2;
+            DefaultNavigationBar navigationBar = new DefaultNavigationBar(P);
+            return navigationBar;
         }
 
         //set effects
@@ -63,6 +64,17 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
             P.mTitle = title;
             return this;
         }
+
+        public Builder setTitleHeight(int height){
+            P.mTitlebarHeight = height;
+            return this;
+        }
+
+        public Builder setTitleColor(int color){
+            P.mTitleBarColor = color;
+            return this;
+        }
+
         public Builder setRightText(String text){
             P.mRightText = text;
             return this;
@@ -101,6 +113,8 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
             public String mLeftText;
             public ImageView mRightImage;
             public ImageView mLeftImage;
+            public int mTitleBarColor = mContext.getResources().getColor(R.color.colorBottom);
+            public int mTitlebarHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
 
             public View.OnClickListener mRightClickListner;
             public View.OnClickListener mLeftClickListner = new View.OnClickListener() {

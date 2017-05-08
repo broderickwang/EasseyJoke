@@ -68,28 +68,26 @@ public class DaoSupport<T> implements IDaoSupport<T> {
     @Override
     public long insert(T t) {
         //获取表名，表名就是t的类名
-        Class claz = t.getClass();
-        String tableName = claz.getSimpleName();
+        ContentValues cv = contentValuesByObj(t);
+        String tableName = t.getClass().getSimpleName();
+        mSqlLiteDatabase.beginTransaction();
+        long id = mSqlLiteDatabase.insert(tableName,null,cv);
+        Log.i("TAG", "插入成功， id === "+id);
+        mSqlLiteDatabase.setTransactionSuccessful();
+        mSqlLiteDatabase.endTransaction();
+        return id;
+    }
+
+    /**
+     * 把Object对象转成ContentValues
+     * @param obj
+     * @return
+     */
+    private ContentValues contentValuesByObj(T obj){
+        Class claz = obj.getClass();
         Field[] fields = claz.getDeclaredFields();
         ContentValues cv = new ContentValues();
         for (Field f : fields){
-            /*if(f.getGenericType().toString().equalsIgnoreCase("class java.lang.String")){
-                try {
-                    Method m = claz.getMethod("get"+f.getName());
-                    String val = (String) m.invoke(t);
-                    cv.put(f.getName(),val);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else if(f.getGenericType().toString().equalsIgnoreCase("int")){
-                try {
-                    Method m = claz.getMethod("get"+f.getName());
-                    int val = (int) m.invoke(t);
-                    cv.put(f.getName(),val);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }*/
             try {
                 //设置权限
                 f.setAccessible(true);
@@ -117,13 +115,7 @@ public class DaoSupport<T> implements IDaoSupport<T> {
             }
 
         }
-
-        mSqlLiteDatabase.beginTransaction();
-        long id = mSqlLiteDatabase.insert(tableName,null,cv);
-        Log.i("TAG", "插入成功， id === "+id);
-        mSqlLiteDatabase.setTransactionSuccessful();
-        mSqlLiteDatabase.endTransaction();
-        return id;
+        return cv;
     }
 
     @Override
@@ -134,8 +126,9 @@ public class DaoSupport<T> implements IDaoSupport<T> {
     }
 
     @Override
-    public void update(T t) {
-
+    public int update(T t,String whereClause,String... whereArgs) {
+        ContentValues cv = contentValuesByObj(t);
+        return mSqlLiteDatabase.update(mClaz.getSimpleName(),cv,whereClause,whereArgs);
     }
 
     @Override
@@ -151,23 +144,31 @@ public class DaoSupport<T> implements IDaoSupport<T> {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        Field[] fs = mClaz.getDeclaredFields();
+        Method[] mg = mClaz.getMethods();
+
         if(c != null){
             if(c.moveToFirst()) {
                 for(int i=0;i<c.getCount();i++){
                     c.moveToPosition(i);
-                    Field[] fs = mClaz.getDeclaredFields();
                     for (Field f: fs) {
-                        Method m = null;
                         try {
-                            Method[] mg = mClaz.getMethods();
                             for(int j=0;j<mg.length;j++){
                                 if(mg[j].getName().contains("set") && mg[j].getName().contains(f.getName())){
                                     if(f.getGenericType().toString().equalsIgnoreCase("int")){
                                         mg[j].invoke(obj,c.getInt(c.getColumnIndex(f.getName())));
+                                    }else if(f.getGenericType().toString().equalsIgnoreCase("boolean")){
+                                        mg[j].invoke(obj,c.getBlob(c.getColumnIndex(f.getName())));
+                                    }else if(f.getGenericType().toString().equalsIgnoreCase("long")){
+                                        mg[j].invoke(obj,c.getLong(c.getColumnIndex(f.getName())));
+                                    }else if(f.getGenericType().toString().equalsIgnoreCase("doble")){
+                                        mg[j].invoke(obj,c.getDouble(c.getColumnIndex(f.getName())));
+                                    }else if(f.getGenericType().toString().equalsIgnoreCase("float")){
+                                        mg[j].invoke(obj,c.getFloat(c.getColumnIndex(f.getName())));
                                     }else{
                                         mg[j].invoke(obj,c.getString(c.getColumnIndex(f.getName())));
                                     }
-
                                 }
                             }
                         } catch (Exception e) {
@@ -180,5 +181,10 @@ public class DaoSupport<T> implements IDaoSupport<T> {
             }
         }
         return objs;
+    }
+
+    @Override
+    public int delete(String whereClause, String... whereArgs) {
+        return mSqlLiteDatabase.delete(mClaz.getSimpleName(),whereClause,whereArgs);
     }
 }

@@ -43,6 +43,12 @@ public class DaoSupportFactory {
         return mFactory;
     }
 
+    /**
+     * 获取dao，class需要有默认的构造方法
+     * @param clz
+     * @param <T>
+     * @return
+     */
     public <T> IDaoSupport<T> getDao(Class<T> clz){
         IDaoSupport<T> daoSupport = new DaoSupport<T>();
         daoSupport.init(mSqlLiteDatabase,clz);

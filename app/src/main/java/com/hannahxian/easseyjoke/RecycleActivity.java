@@ -2,6 +2,7 @@ package com.hannahxian.easseyjoke;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.hannahxian.baselibrary.CommonRecycleAdapter.MultiTypeSupport;
@@ -44,7 +45,7 @@ public class RecycleActivity extends BaseActivity {
 
 		adapter.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public boolean onClick(int v) {
+			public boolean onClick(View view, int v) {
 				Toast.makeText(RecycleActivity.this, v+"", Toast.LENGTH_SHORT).show();
 				return false;
 			}

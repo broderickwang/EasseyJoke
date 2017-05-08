@@ -27,10 +27,9 @@
 
     <TextView
         android:id="@+id/title_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
         android:layout_height="45dp"
-        android:layout_toRightOf="@+id/left_tv"
-        android:layout_toLeftOf="@+id/right_tv"
         android:gravity="center_vertical|center"
         android:text="a"
         android:textSize="20dp"/>
