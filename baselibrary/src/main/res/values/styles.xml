@@ -50,4 +50,11 @@
         <item name="android:text">@null</item>
         <item name="android:drawableLeft">@null</item>
     </style>
+    <style name="CustomCheckboxStyle" parent="Base.Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checked_select</item>
+    </style>
+
+    <style name="CustomRecycleStyle" parent="AlertDialog.AppCompat.Light">
+        <item name="android:listDivider">@drawable/griddecoration</item>
+    </style>
 </resources>

@@ -2,6 +2,7 @@ package com.hannahxian.baselibrary.base;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,12 +11,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hannahxian.baselibrary.CommonRecycleAdapter.MultiTypeSupport;
 import com.hannahxian.baselibrary.CommonRecycleAdapter.OnItemClickListener;
 import com.hannahxian.baselibrary.R;
 import com.hannahxian.baselibrary.adapter.SelectImageListAdapter;
 import com.hannahxian.baselibrary.bean.ImageEntity;
+import com.hannahxian.baselibrary.decoration.ImageSelectGridDecoration;
+import com.hannahxian.baselibrary.decoration.ImageSelectGridDecoration_Drawable;
 
 import java.util.ArrayList;
 
@@ -34,32 +39,36 @@ public class SelectImageActivity extends BaseActivity {
 
 	public static final int MODE_MULTI = 0x0022;
 
+	public static final int SELECT_RESULT_CODE = 0x0099;
+
+	private static final int LOADER_TYPE = 0x0021;
+
 	//带过来的key
 	public static final String EXTRA_SHOW_CAMERA = "EXTRA_SHOW_CAMERA";
 
 	public static final String EXTRA_SELECT_COUNT = "EXTRA_SELECT_CONT";
 
-	public static final String EXTRA_DEFAULT_SELECTED_LIST = "EXTRA_DEFAULT_SELECTED_LIST";
-
 	public static final String EXTRA_SELECT_MODE = "EXTRA_SELECT_MODE";
 
-	private static final String EXTRA_RESULT = "EXTRA_RESULT";
+	public static final String EXTRA_RESULT = "EXTRA_RESULT";
 
-	private static final int LOADER_TYPE = 0x0021;
+	public static final String EXTRA_DEFAULT_SELECTED_LIST = "EXTRA_DEFAULT_SELECTED_LIST";
 
 	//int 单选或者多选
 	private int mMode = MODE_MULTI;
 
 	//boolean 是否显示拍照按钮
-	private boolean mShowCamera = true;
+	private boolean mShowCamera = false;
 
 	//int 图片张数
 	private int mMaxCount = 9;
 
-	//ArrayList 已经选择好的图片列表
-	private ArrayList<String> mResultList;
+	//ArrayList 已经选择好的图片列表(保存图片路径)
+	private ArrayList<String> mResultList = new ArrayList<>();
 
 	private RecyclerView mRecyclerView;
+
+	private TextView mComplete,mCountTv;
 
 	@Override
 	protected void setContentView() {
@@ -79,7 +88,22 @@ public class SelectImageActivity extends BaseActivity {
 	protected void initView() {
 		mRecyclerView = (RecyclerView)findViewById(R.id.select_images);
 
+		mComplete = (TextView)findViewById(R.id.completed);
+
+		mCountTv = (TextView)findViewById(R.id.count);
+
+		exChangeView();
+
 		initImageList();
+
+		setListner();
+	}
+
+	/**
+	 * 根据选择的张数，进行视图变化
+	 */
+	private void exChangeView(){
+		mCountTv.setText(mResultList.size()+"/"+mMaxCount);
 	}
 
 	@Override
@@ -154,8 +178,8 @@ public class SelectImageActivity extends BaseActivity {
 	 * 显示图片列表
 	 * @param images
 	 */
-	private void showImageList(ArrayList<ImageEntity> images) {
-		SelectImageListAdapter adapter = new SelectImageListAdapter(SelectImageActivity.this, images, new MultiTypeSupport<ImageEntity>() {
+	private void showImageList(final ArrayList<ImageEntity> images) {
+		final SelectImageListAdapter adapter = new SelectImageListAdapter(SelectImageActivity.this, images, new MultiTypeSupport<ImageEntity>() {
 			@Override
 			public int getLayoutId(ImageEntity item, int position) {
 				int layoutId = 0;
@@ -169,14 +193,39 @@ public class SelectImageActivity extends BaseActivity {
 		});
 		adapter.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public boolean onClick(View view,int v) {
+			public boolean onClick(View view,int position) {
 				CheckBox checkBox = (CheckBox)view.findViewById(R.id.img_checkBox);
-				checkBox.setChecked(!checkBox.isChecked());
+				if(mResultList.contains(images.get(position).path)){
+					mResultList.remove(images.get(position).path);
+					checkBox.setChecked(false);
+				}else{
+					if(mResultList.size() < mMaxCount) {
+						mResultList.add(images.get(position).path);
+						checkBox.setChecked(true);
+					}else{
+						Toast.makeText(SelectImageActivity.this, "最多选择"+mMaxCount+"张图片", Toast.LENGTH_SHORT).show();
+					}
+				}
+				exChangeView();
 				return false;
 			}
 		});
 
+		/*new ImageSelectGridDecoration(4,20,false)*/
+//		mRecyclerView.addItemDecoration(new ImageSelectGridDecoration(4,10,false));
 		mRecyclerView.setLayoutManager(new GridLayoutManager(SelectImageActivity.this,4));
 		mRecyclerView.setAdapter(adapter);
+	}
+
+	private void setListner(){
+		mComplete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();
+				intent.putExtra(EXTRA_RESULT,mResultList);
+				setResult(SELECT_RESULT_CODE,intent);
+				finish();
+			}
+		});
 	}
 }
