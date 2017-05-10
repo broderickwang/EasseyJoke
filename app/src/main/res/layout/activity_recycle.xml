@@ -10,8 +10,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hannahxian.easseyjoke.RecycleActivity">
-    <android.support.v7.widget.RecyclerView
+    <com.hannahxian.easseyjoke.recycleviewhead.WrapRecycleView
         android:id="@+id/myRecycle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"></com.hannahxian.easseyjoke.recycleviewhead.WrapRecycleView>
 </RelativeLayout>

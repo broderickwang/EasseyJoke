@@ -1,5 +1,6 @@
 package com.hannahxian.baselibrary.CommonRecycleAdapter;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
@@ -7,5 +8,5 @@ import android.view.View;
  */
 
 public interface OnItemClickListener  {
-	boolean onClick(View view, int position);
+	boolean onClick(RecyclerView parent, int position);
 }
