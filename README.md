@@ -107,4 +107,56 @@ mRecycleView.setAdapter(adapter2);
 ImageSelector.create().count(9).camera(true).multi().origenlist(al).start(TestActivity.this,1);
 ```
 
+## 网络引擎
 
+```java
+HttpUtils.with(this)
+        .url("http://is.snssdk.com/neihan/stream/mix/v1/")
+        .addParam("uuid","359250050588035")
+        .addParam("openudid","12645e537a2f0f25")
+        .exchangeEngine(new RetrofitEngine(GetZhihuService.class))
+        .post()
+        .excute(new HttpCallBack<ResultBean>() {
+            @Override
+            public void onError(Exception e) {
+                Log.e("Tag", "onError: ", e);
+            }
+
+            @Override
+            public void onSuccess(ResultBean result) {
+                //可以取消进度条
+                //转换成可操作的对象
+
+                Log.i("TAG", "onSuccess: Main = "+result.getData().getTip() );
+            }
+
+            @Override
+            public void onPreExcute() {
+                super.onPreExcute();
+                //可以加载进度条
+                Log.i("TAG", "onPreExcute: MainActivity2");
+            }
+        });
+```
+
+exchangeEngine可以一键切换数据库引擎。支持okhttp，xutils，retrofit（未完善）
+
+## 数据库框架
+
+首先建立JavaBean对象，一定要写默认构造
+
+根据bean对象创建表，并获得数据库引擎
+
+```java
+cuseDao = DaoSupportFactory.getFactory().getDao(Cuse.class);
+```
+
+cure
+
+```java
+String[] args2 = {"语文"};
+List<Cuse>  obs2  = cuseDao.query("mName=?",args2);
+cuseDao.delete("mName=?",args2);
+cuseDao.update(new Cuse("SHUXUE",1),"mName=?",args2);
+cuseDao.delete("mName=?",args2);
+```
