@@ -154,9 +154,9 @@ cuseDao = DaoSupportFactory.getFactory().getDao(Cuse.class);
 cure
 
 ```java
+cuseDao.insert(new Cuse("语文",2));
 String[] args2 = {"语文"};
 List<Cuse>  obs2  = cuseDao.query("mName=?",args2);
-cuseDao.delete("mName=?",args2);
 cuseDao.update(new Cuse("SHUXUE",1),"mName=?",args2);
 cuseDao.delete("mName=?",args2);
 ```
