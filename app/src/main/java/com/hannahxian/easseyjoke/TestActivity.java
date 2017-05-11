@@ -41,7 +41,7 @@ public class TestActivity extends AppCompatActivity {
                /* Intent i = new Intent(TestActivity.this, SelectImageActivity.class);
                 i.putExtra(SelectImageActivity.EXTRA_DEFAULT_SELECTED_LIST,al);
                 startActivityForResult(i,1);*/
-//                ImageSelector.create().count(9).camera(true).multi().origenlist(al).start(TestActivity.this,1);
+                ImageSelector.create().count(9).camera(true).multi().origenlist(al).start(TestActivity.this,1);
                 /*int permission = ContextCompat.checkSelfPermission(TestActivity.this, Manifest.permission.CALL_PHONE);
                 //返回值 只有两个 授予 PERMISSION_GRANTED  拒绝 PERMISSION_DENIED
                 if (permission == PackageManager.PERMISSION_GRANTED) {
@@ -53,11 +53,11 @@ public class TestActivity extends AppCompatActivity {
                     // ActivityCompat.requestPermissions(TestActivity.this,new String[]{Manifest.permission.CALL_PHONE},CALL_PHONE_REQUEST_CODE);
                     requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST_CODE);
                 }*/
-                PermissionHelper.with(TestActivity.this)
+                /*PermissionHelper.with(TestActivity.this)
                         .requestPermission( Manifest.permission.CALL_PHONE,Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.CAMERA,Manifest.permission.READ_CONTACTS)
                         .requestCode(CODE_FOR_MULTIPLE_PERMISSION)
-                        .request();
+                        .request();*/
 
             }
         });
@@ -76,7 +76,7 @@ public class TestActivity extends AppCompatActivity {
                 Toast.makeText(this, "用户拒绝了！", Toast.LENGTH_SHORT).show();
             }
         }*/
-       PermissionHelper.requestPermissionResult(this,requestCode,permissions,grantResults);
+       PermissionHelper.requestPermissionResult(this,requestCode,permissions);
     }
 
 
@@ -112,8 +112,8 @@ public class TestActivity extends AppCompatActivity {
         if(requestCode==1 && resultCode==SelectImageActivity.SELECT_RESULT_OK){
             al = data.getStringArrayListExtra(SelectImageActivity.EXTRA_RESULT);
         }
-        for (int i = 0; i < al.size(); i++) {
+        /*for (int i = 0; i < al.size(); i++) {
             Toast.makeText(this, al.get(i), Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }

@@ -1,6 +1,9 @@
 package com.hannahxian.baselibrary.adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
@@ -15,6 +18,8 @@ import com.hannahxian.baselibrary.R;
 import com.hannahxian.baselibrary.base.SelectImageActivity;
 import com.hannahxian.baselibrary.bean.ImageEntity;
 import com.hannahxian.baselibrary.listner.SelectImageListner;
+import com.hannahxian.baselibrary.permission.PermissionHelper;
+import com.hannahxian.baselibrary.utils.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +59,10 @@ public class SelectImageListAdapter extends CommonRecyclerAdapter<ImageEntity> {
             holder.setOnIntemClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 2017/5/10 拍照实现 6.0以上的权限问题
+                   PermissionHelper.with((Activity) mContext)
+                            .requestPermission(Manifest.permission.CAMERA)
+                            .requestCode(SelectImageActivity.REQUEST_CAMERA_CODE)
+                            .request();
 
                 }
             });

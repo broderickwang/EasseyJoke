@@ -91,9 +91,8 @@ public class PermissionHelper {
 	 * @param object
 	 * @param requestCode
 	 * @param permissions
-	 * @param grantResults
 	 */
-	public static void requestPermissionResult(Object object, int requestCode, String[] permissions, int[] grantResults) {
+	public static void requestPermissionResult(Object object, int requestCode, String[] permissions) {
 		//再次获取没有授予的权限
 		List<String> deniedPermissions = PermissionUtils.getDeniedPermissions(object,permissions);
 		if(deniedPermissions.size() == 0){

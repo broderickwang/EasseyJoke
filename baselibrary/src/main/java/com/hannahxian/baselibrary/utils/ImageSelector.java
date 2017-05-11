@@ -2,9 +2,18 @@ package com.hannahxian.baselibrary.utils;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+
 import com.hannahxian.baselibrary.base.SelectImageActivity;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Broderick
@@ -73,5 +82,24 @@ public class ImageSelector {
 		intent.putExtra(SelectImageActivity.EXTRA_SHOW_CAMERA,mIsShowCamera);
 		intent.putExtra(SelectImageActivity.EXTRA_SELECT_MODE,mIsMulti);
 		intent.putExtra(SelectImageActivity.EXTRA_SELECT_COUNT,mMaxCount);
+	}
+	public static void galleryAddPic(Context context, String photoPath) {
+		Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+		File f = new File(photoPath);
+		Uri contentUri = Uri.fromFile(f);
+		mediaScanIntent.setData(contentUri);
+		context.sendBroadcast(mediaScanIntent);
+	}
+	public static File createImageFile() throws IOException {
+		// 定义图片名称
+		String imageFileName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		String imageFileSuffix = ".jpg";
+		File storageDir = Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_PICTURES + "/GIS");
+		if (!storageDir.exists()) {
+			storageDir.mkdirs();
+		}
+		File image = new File(storageDir.getPath() + "/" + imageFileName + imageFileSuffix);
+		return image;
 	}
 }
