@@ -160,3 +160,7 @@ List<Cuse>  obs2  = cuseDao.query("mName=?",args2);
 cuseDao.update(new Cuse("SHUXUE",1),"mName=?",args2);
 cuseDao.delete("mName=?",args2);
 ```
+
+## 属性动画
+
+[QQ20170512-163523-HD.mp4](../../Library/Containers/FN2V63AD2J.com.tencent.ScreenCapture2/Data/Downloads/QQ20170512-163523-HD.mp4)
