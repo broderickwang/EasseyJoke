@@ -9,12 +9,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 import com.hannahxian.baselibrary.base.SelectImageActivity;
 import com.hannahxian.baselibrary.permission.PermissionFailed;
 import com.hannahxian.baselibrary.permission.PermissionHelper;
 import com.hannahxian.baselibrary.permission.PermissionSuccess;
+import com.hannahxian.baselibrary.utils.CustumToast;
 import com.hannahxian.baselibrary.utils.ImageSelector;
 import com.hannahxian.baselibrary.utils.PermissionUtils;
 
@@ -41,7 +44,7 @@ public class TestActivity extends AppCompatActivity {
                /* Intent i = new Intent(TestActivity.this, SelectImageActivity.class);
                 i.putExtra(SelectImageActivity.EXTRA_DEFAULT_SELECTED_LIST,al);
                 startActivityForResult(i,1);*/
-                ImageSelector.create().count(9).camera(true).multi().origenlist(al).start(TestActivity.this,1);
+               // ImageSelector.create().count(9).camera(true).multi().origenlist(al).start(TestActivity.this,1);
                 /*int permission = ContextCompat.checkSelfPermission(TestActivity.this, Manifest.permission.CALL_PHONE);
                 //返回值 只有两个 授予 PERMISSION_GRANTED  拒绝 PERMISSION_DENIED
                 if (permission == PackageManager.PERMISSION_GRANTED) {
@@ -58,6 +61,13 @@ public class TestActivity extends AppCompatActivity {
                                 Manifest.permission.CAMERA,Manifest.permission.READ_CONTACTS)
                         .requestCode(CODE_FOR_MULTIPLE_PERMISSION)
                         .request();*/
+
+                /*Toast t = new Toast(TestActivity.this);
+                t.setGravity(Gravity.CENTER, Gravity.CENTER, Gravity.CENTER);
+                t.setView(LayoutInflater.from(TestActivity.this).inflate(R.layout.toast_view,null));
+                t.setDuration(Toast.LENGTH_LONG);
+                t.show();*/
+                CustumToast.makeToast(TestActivity.this,"stest",Toast.LENGTH_LONG,CustumToast.CENTER).show();
 
             }
         });

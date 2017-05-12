@@ -289,7 +289,7 @@ public class SelectImageActivity extends BaseActivity {
 		intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
 		startActivityForResult(intent,REQUEST_CAMERA_OK);
 
-		java.io.File photoFile = null;
+		/*java.io.File photoFile = null;
 		try {
 			photoFile = ImageUtil.createImageFile();
 		} catch (IOException ex) {
@@ -300,7 +300,7 @@ public class SelectImageActivity extends BaseActivity {
 			mMarkingToolbarImageFile = photoFile;
 			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
 			startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-		}
+		}*/
 	}
 
 	@PermissionFailed(requestCode = REQUEST_CAMERA_CODE)
