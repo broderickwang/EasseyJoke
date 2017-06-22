@@ -1,3 +1,5 @@
+
+
 # BaseLibarary
 
 ## 多布局Adapter
@@ -164,3 +166,42 @@ cuseDao.delete("mName=?",args2);
 ## 属性动画
 
 [QQ20170512-163523-HD.mp4](../../Library/Containers/FN2V63AD2J.com.tencent.ScreenCapture2/Data/Downloads/QQ20170512-163523-HD.mp4)
+
+
+
+## 6.0动态权限申请框架
+
+设置申请返回码
+
+```java
+private static final int CODE_FOR_MULTIPLE_PERMISSION = 0x0022;
+```
+
+```java
+//申请权限
+PermissionHelper.with(TestActivity.this)
+        .requestPermission( Manifest.permission.CALL_PHONE,Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,Manifest.permission.READ_CONTACTS)
+        .requestCode(CODE_FOR_MULTIPLE_PERMISSION)
+        .request();
+```
+
+设置申请成功和失败的注解方法
+
+```java
+@PermissionSuccess(requestCode = CODE_FOR_MULTIPLE_PERMISSION)
+private void callPhone() {
+    Intent intent = new Intent(Intent.ACTION_CALL);
+    Uri data = Uri.parse("tel:18561588037");
+    intent.setData(data);
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        return;
+    }
+    startActivity(intent);
+}
+
+@PermissionFailed(requestCode = CODE_FOR_MULTIPLE_PERMISSION)
+private void callCancle(){
+    Toast.makeText(this, "拒绝打电话", Toast.LENGTH_SHORT).show();
+}
+```
