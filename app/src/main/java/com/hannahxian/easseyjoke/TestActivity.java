@@ -56,11 +56,11 @@ public class TestActivity extends AppCompatActivity {
                     // ActivityCompat.requestPermissions(TestActivity.this,new String[]{Manifest.permission.CALL_PHONE},CALL_PHONE_REQUEST_CODE);
                     requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PHONE_REQUEST_CODE);
                 }*/
-                /*PermissionHelper.with(TestActivity.this)
+                PermissionHelper.with(TestActivity.this)
                         .requestPermission( Manifest.permission.CALL_PHONE,Manifest.permission.READ_EXTERNAL_STORAGE,
                                 Manifest.permission.CAMERA,Manifest.permission.READ_CONTACTS)
                         .requestCode(CODE_FOR_MULTIPLE_PERMISSION)
-                        .request();*/
+                        .request();
 
                 /*Toast t = new Toast(TestActivity.this);
                 t.setGravity(Gravity.CENTER, Gravity.CENTER, Gravity.CENTER);
